@@ -14,7 +14,30 @@ class ViewController: UIViewController {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
     }
-
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        showAlert()
+    }
+    
+    func getTheServerURL() -> String{
+        guard let path = Bundle.main.path(forResource: "Info", ofType: "plist") else {
+            return ""
+        }
+        
+        guard let dict = NSDictionary(contentsOfFile: path) else {
+            return ""
+        }
+        
+        return dict["SERVER_URL"] as? String ?? ""
+    }
+    
+    func showAlert(){
+        let alert = UIAlertController(title: "Alert", message: getTheServerURL(), preferredStyle: .alert)
+        let okButton = UIAlertAction(title: "OK", style: .default, handler: nil)
+        alert.addAction(okButton)
+        present(alert, animated: true, completion: nil)
+    }
 
 }
 
